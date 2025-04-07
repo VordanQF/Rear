@@ -1,0 +1,369 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 543px;
+}
+
+.u-section-1 .u-shape-1 {
+  width: 113px;
+  height: 113px;
+  margin: 19px auto 0 0;
+}
+
+.u-section-1 .u-text-1 {
+  font-size: 1.875rem;
+  margin: -113px auto 0 132px;
+}
+
+.u-section-1 .u-text-2 {
+  margin: 1px auto 0 133px;
+}
+
+.u-section-1 .u-text-3 {
+  font-size: 1.25rem;
+  margin: 34px 898px 0 134px;
+}
+
+.u-section-1 .u-shape-2 {
+  width: 23px;
+  height: 23px;
+  margin: -51px auto 0 81px;
+}
+
+.u-section-1 .u-text-4 {
+  font-size: 1.25rem;
+  margin: 48px 898px 0 134px;
+}
+
+.u-section-1 .u-text-5 {
+  font-size: 1.25rem;
+  margin: 19px 847px 0 134px;
+}
+
+.u-section-1 .u-text-6 {
+  font-size: 1.25rem;
+  margin: 20px auto 0 134px;
+}
+
+.u-section-1 .u-image-1 {
+  width: 205px;
+  height: 463px;
+  margin: -300px 94px 0 auto;
+}
+
+.u-section-1 .u-text-7 {
+  font-size: 1.25rem;
+  margin: -143px auto 0 134px;
+}
+
+.u-section-1 .u-btn-1 {
+  --radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 1px;
+  margin: 29px auto 60px 132px;
+  padding: 10px 12px 10px 10px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-shape-1 {
+    margin-top: 26px;
+  }
+
+  .u-section-1 .u-text-1 {
+    width: auto;
+    margin-right: 458px;
+    margin-left: 131px;
+  }
+
+  .u-section-1 .u-text-2 {
+    width: auto;
+    margin-right: 684px;
+  }
+
+  .u-section-1 .u-text-3 {
+    width: auto;
+    margin-right: 742px;
+  }
+
+  .u-section-1 .u-text-4 {
+    width: auto;
+    margin-right: 723px;
+  }
+
+  .u-section-1 .u-text-5 {
+    width: auto;
+    margin-top: 21px;
+    margin-right: 652px;
+  }
+
+  .u-section-1 .u-text-6 {
+    width: auto;
+    margin-left: 132px;
+  }
+
+  .u-section-1 .u-image-1 {
+    height: 402px;
+    margin-top: -301px;
+    margin-right: 63px;
+  }
+
+  .u-section-1 .u-text-7 {
+    width: auto;
+    margin-top: -81px;
+    margin-left: 132px;
+  }
+
+  .u-section-1 .u-btn-1 {
+    margin-top: 92px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-shape-1 {
+    margin-left: 210px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-right: 351px;
+    margin-left: 342px;
+  }
+
+  .u-section-1 .u-text-2 {
+    margin-right: 524px;
+    margin-left: 343px;
+  }
+
+  .u-section-1 .u-text-3 {
+    margin-right: 759px;
+    margin-left: 344px;
+  }
+
+  .u-section-1 .u-shape-2 {
+    margin-left: 291px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-right: 688px;
+    margin-left: 344px;
+  }
+
+  .u-section-1 .u-text-5 {
+    margin-right: 771px;
+    margin-left: 210px;
+  }
+
+  .u-section-1 .u-text-6 {
+    margin-left: 210px;
+  }
+
+  .u-section-1 .u-image-1 {
+    margin-right: 250px;
+  }
+
+  .u-section-1 .u-text-7 {
+    margin-left: 210px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-shape-1 {
+    margin-left: 300px;
+  }
+
+  .u-section-1 .u-text-1 {
+    font-size: 1.6666666666666665rem;
+    margin-right: 263px;
+    margin-left: 432px;
+  }
+
+  .u-section-1 .u-text-2 {
+    margin-right: 393px;
+    margin-left: 433px;
+  }
+
+  .u-section-1 .u-text-3 {
+    font-size: 1.1111111111111112rem;
+    margin-right: 699px;
+    margin-left: 434px;
+  }
+
+  .u-section-1 .u-shape-2 {
+    margin-left: 381px;
+  }
+
+  .u-section-1 .u-text-4 {
+    font-size: 1.1111111111111112rem;
+    margin-right: 598px;
+    margin-left: 434px;
+  }
+
+  .u-section-1 .u-text-5 {
+    font-size: 1.1111111111111112rem;
+    margin-right: 681px;
+    margin-left: 300px;
+  }
+
+  .u-section-1 .u-text-6 {
+    font-size: 1.1111111111111112rem;
+    margin-left: 300px;
+  }
+
+  .u-section-1 .u-image-1 {
+    margin-right: 340px;
+  }
+
+  .u-section-1 .u-text-7 {
+    font-size: 1.1111111111111112rem;
+    margin-left: 300px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-shape-1 {
+    margin-left: 400px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-right: 166px;
+    margin-left: 483px;
+  }
+
+  .u-section-1 .u-text-2 {
+    margin-right: 247px;
+    margin-left: 484px;
+  }
+
+  .u-section-1 .u-text-3 {
+    margin-right: 633px;
+    margin-left: 484px;
+  }
+
+  .u-section-1 .u-shape-2 {
+    margin-left: 481px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-right: 548px;
+    margin-left: 484px;
+  }
+
+  .u-section-1 .u-text-5 {
+    margin-right: 581px;
+    margin-left: 400px;
+  }
+
+  .u-section-1 .u-text-6 {
+    margin-left: 400px;
+  }
+
+  .u-section-1 .u-image-1 {
+    margin-right: 440px;
+  }
+
+  .u-section-1 .u-text-7 {
+    margin-left: 400px;
+  }
+}
+  /* Затемнение фона */
+  .modal {
+    display: none; /* Обязательно! */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 24px 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.25s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  #close-modal-span {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  #close-modal-span:hover {
+    color: #e74c3c;
+  }
+
+  .modal-content h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .modal-content label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .modal-content input,
+  .modal-content select,
+  .modal-content textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .modal-content textarea {
+    resize: vertical;
+    height: 70px;
+  }
+
+  #submit-form-btn {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  #submit-form-btn:hover {
+    background-color: #0056b3;
+  }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: #fdfdfd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+        font-family: sans-serif;
+    }
+    .form-container h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .form-container form input,
+    .form-container form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    .form-container form button {
+        padding: 10px 20px;
+        background-color: #0051ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .form-container form button:hover {
+        background-color: #003ecc;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Редактировать профиль</h2>
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+</div>
+{% endblock %}
+</body>
+</html>

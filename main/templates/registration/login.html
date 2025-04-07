@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+     {% load static %}
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'registr/css/style.css' %}">
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+</head>
+    <section class="container forms">
+        <div id="login-form" class="form login active">
+            <div class="form-content">
+                <header>Вход</header>
+                <form id="loginForm" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="field input-field">
+                        <input type="text" id="username" name="username" placeholder="Логин" required>
+                        <span class="error" id="usernameError"></span>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" id="password" name="password" placeholder="Пароль" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                        <span class="error" id="passwordError"></span>
+                    </div>
+
+                    <div class="field button-field">
+                        <button type="submit">Войти</button>
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>У вас нет аккаунта? <a href="#" class="link signup-link">Зарегистрироваться</a></span>
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="media-options">
+                <a href="telegram-login/" class="field telegramm">
+                    <span>Вход с помощью Telegram</span>
+                </a>
+            </div>
+
+            <div class="media-options">
+                <a href="#" class="field google" >
+                    <span  >Вход с помощью VK</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="signup-form" class="form signup">
+            <div class="form-content">
+                <header>Регистрация</header>
+                <form id="signupForm" method="post" action="{% url 'signup' %}">
+                    {% csrf_token %}
+                    <div class="field input-field">
+                        <input type="text" id="usernameSignup" name="username" placeholder="Логин" required>
+                        <span class="error" id="usernameSignupError"></span>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" id="password1" name="password1" placeholder="Придумайте пароль" class="password" required>                        <span class="error" id="password1Error"></span>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" id="password2" name="password2" placeholder="Подтвердите пароль" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                        <span class="error" id="password2Error"></span>
+                    </div>
+
+                    <div class="field button-field">
+    <button type="button" id="open-modal-btn">Зарегистрироваться</button>
+
+                        <div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="close-modal-span">×</span>
+    <h2 id="modal-title">Дополнительная информация</h2>
+    <p class="modal-description">
+    Эта информация нужна, чтобы мы могли эффективно подобрать вам волонтёра, наставника или предложить подходящую помощь. Все данные хранятся в безопасности и не передаются третьим лицам.
+    </p>
+    <p id="modal-message">
+        <label>Имя: <input type="text" id="first_name" required /></label><br><br>
+        <span class="error_model" id="firstNameError"></span> <!-- Место для ошибки -->
+
+        <label>Фамилия: <input type="text" id="last_name" required /></label><br><br>
+        <span class="error_model" id="lastNameError"></span> <!-- Место для ошибки -->
+
+        <label>Возраст: <input type="text" id="age" required /></label><br><br>
+        <span class="error_model" id="ageError"></span> <!-- Место для ошибки -->
+
+        <label>Город: <input type="text" id="city"  list="city-list" required /></label><br><br>
+        <span class="error_model" id="cityError"></span> <!-- Место для ошибки -->
+        <datalist id="city-list">
+    <option value="Москва">Москва</option>
+<option value="Санкт-Петербург">Санкт-Петербург</option>
+<option value="Новосибирск">Новосибирск</option>
+<option value="Екатеринбург">Екатеринбург</option>
+<option value="Казань">Казань</option>
+<option value="Нижний Новгород">Нижний Новгород</option>
+<option value="Челябинск">Челябинск</option>
+<option value="Самара">Самара</option>
+<option value="Ростов-на-Дону">Ростов-на-Дону</option>
+<option value="Уфа">Уфа</option>
+<option value="Омск">Омск</option>
+<option value="Красноярск">Красноярск</option>
+<option value="Воронеж">Воронеж</option>
+<option value="Пермь">Пермь</option>
+<option value="Волгоград">Волгоград</option>
+<option value="Саратов">Саратов</option>
+<option value="Тюмень">Тюмень</option>
+<option value="Тольятти">Тольятти</option>
+<option value="Ижевск">Ижевск</option>
+<option value="Барнаул">Барнаул</option>
+<option value="Ульяновск">Ульяновск</option>
+<option value="Иркутск">Иркутск</option>
+<option value="Хабаровск">Хабаровск</option>
+<option value="Ярославль">Ярославль</option>
+<option value="Владивосток">Владивосток</option>
+<option value="Махачкала">Махачкала</option>
+<option value="Томск">Томск</option>
+<option value="Оренбург">Оренбург</option>
+<option value="Кемерово">Кемерово</option>
+<option value="Новокузнецк">Новокузнецк</option>
+<option value="Рязань">Рязань</option>
+<option value="Набережные Челны">Набережные Челны</option>
+<option value="Астрахань">Астрахань</option>
+<option value="Пенза">Пенза</option>
+<option value="Липецк">Липецк</option>
+<option value="Киров">Киров</option>
+<option value="Чебоксары">Чебоксары</option>
+<option value="Тула">Тула</option>
+<option value="Калининград">Калининград</option>
+<option value="Севастополь">Севастополь</option>
+<option value="Архангельск">Архангельск</option>
+<option value="Смоленск">Смоленск</option>
+<option value="Грозный">Грозный</option>
+<option value="Калуга">Калуга</option>
+<option value="Тверь">Тверь</option>
+<option value="Брянск">Брянск</option>
+<option value="Мурманск">Мурманск</option>
+<option value="Владикавказ">Владикавказ</option>
+<option value="Якутск">Якутск</option>
+<option value="Сочи">Сочи</option>
+<option value="Петрозаводск">Петрозаводск</option>
+<option value="Йошкар-Ола">Йошкар-Ола</option>
+<option value="Ставрополь">Ставрополь</option>
+    <!-- можешь дополнять -->
+</datalist>
+
+
+       <label>Роль:
+        <select id="role" required>
+        <option value="" selected disabled>-- Выберите роль --</option>
+        <option value="svo">Боец СВО</option>
+        <option value="volunteer">Волонтёр</option>
+        <option value="mentor">Наставник</option>
+        <option value="family">Семья бойца</option>
+        <option value="peresel">Переселенцы</option>
+        </select>
+       </label><br><br>
+        <span class="error_model" id="roleError"></span>
+
+        <label>Телефон: <input type="text" id="phone_number" required pattern="^\+7\d{10}$" placeholder="+71234567890" /></label><br><br>
+        <span class="error_model" id="phoneError"></span> <!-- Место для ошибки -->
+
+        <label>О себе: <textarea id="bio" required></textarea></label><br><br>
+        <span class="error_model" id="bio_error"></span> <!-- Место для ошибки -->
+        <button type="button" id="submit-form-btn">Завершить регистрацию</button>
+    </p>
+  </div>
+</div>
+</div>
+
+
+
+
+                <div class="form-link">
+                    <span>У вас уже есть аккаунт? <a href="{% url 'login' %}" class="link login-link">Вход</a></span>
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="media-options">
+                <a href="#" class="field telegramm">
+                    <span>Войти с помощью Telegram</span>
+                </a>
+            </div>
+
+            <div class="media-options">
+                <a href="#" class="field google">
+                    <span>Войти с помощью VK</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="{% static 'registr/jv/validation.js' %}"></script>
+    <script src="{% static 'registr/jv/script.js' %}"></script>
+     <script>document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("close-modal-span");
+    const openModalBtn = document.getElementById("open-modal-btn");
+    const signupForm = document.getElementById("signupForm");
+    const usernameSignup = document.getElementById('usernameSignup');
+    const password1 = document.getElementById('password1');
+    const password2 = document.getElementById('password2');
+
+    const usernameSignupError = document.getElementById('usernameSignupError');
+    const password1Error = document.getElementById('password1Error');
+    const password2Error = document.getElementById('password2Error');
+    const firstName = document.getElementById('first_name');
+    const lastName = document.getElementById('last_name');
+    const city = document.getElementById('city');
+    const phone = document.getElementById('phone_number');
+    const age = document.getElementById('age');
+     const role = document.getElementById('role');
+
+
+
+    const firstNameError = document.getElementById('firstNameError');
+    const lastNameError = document.getElementById('lastNameError');
+    const cityError = document.getElementById('cityError');
+    const phoneError = document.getElementById('phoneError');
+    const ageError = document.getElementById('ageError');
+     const roleError = document.getElementById('roleError');
+
+
+    const submitModalBtn = document.getElementById("submit-form-btn");
+
+    // Убедитесь, что модальное окно скрыто при загрузке страницы
+    modal.style.display = "none";
+
+    // Функции для проверки на пустые значения
+    function validateNotEmpty(value) {
+        return value.trim().length > 0;
+    }
+
+    // Проверка основных полей (до открытия модального окна)
+    function areAllFieldsFilled() {
+        let allFilled = true;
+
+        if (!validateNotEmpty(usernameSignup.value)) {
+            usernameSignupError.textContent = "Пожалуйста, введите имя пользователя.";
+            allFilled = false;
+        } else {
+            usernameSignupError.textContent = "";
+        }
+
+        if (!validateNotEmpty(password1.value)) {
+            password1Error.textContent = "Пожалуйста, введите пароль.";
+            allFilled = false;
+        } else {
+            password1Error.textContent = "";
+        }
+
+        if (!validateNotEmpty(password2.value)) {
+            password2Error.textContent = "Пожалуйста, подтвердите пароль.";
+            allFilled = false;
+        } else {
+            password2Error.textContent = "";
+        }
+
+         // Проверка на совпадение паролей
+        if (validateNotEmpty(password1.value) && validateNotEmpty(password2.value)) {
+            if (password1.value !== password2.value) {
+            password2Error.textContent = "Пароли не совпадают.";
+            allFilled = false;
+            } else {
+            password2Error.textContent = "";
+            }
+        }
+
+        return allFilled;
+    }
+
+    // Проверка модальных полей (имя, фамилия и т.д.)
+    function areModalFieldsFilled() {
+        let allFilled = true;
+
+        // Сброс ошибок
+        firstNameError.textContent = "";
+        lastNameError.textContent = "";
+        cityError.textContent = "";
+        phoneError.textContent = "";
+        ageError.textContent = "";
+
+
+        if (!validateNotEmpty(firstName.value)) {
+            firstNameError.textContent = "Пожалуйста, введите имя.";
+            allFilled = false;
+        }
+        if (!validateNotEmpty(lastName.value)) {
+            lastNameError.textContent = "Пожалуйста, введите фамилию.";
+            allFilled = false;
+        }
+        if (!validateNotEmpty(city.value)) {
+            cityError.textContent = "Пожалуйста, укажите город.";
+            allFilled = false;
+        }
+        if (!validateNotEmpty(age.value)) {
+            ageError.textContent = "Пожалуйста, укажите возраст.";
+            allFilled = false;
+        }
+        if (!validateNotEmpty(age.value)) {
+            roleError.textContent = "Пожалуйста, укажите роль.";
+            allFilled = false;
+        }
+        if (!validateNotEmpty(phone.value)) {
+            phoneError.textContent = "Введите номер телефона.";
+            allFilled = false;
+        }
+        const phonePattern = /^\+7\d{10}$/;
+        if (!phonePattern.test(phone.value.trim())) {
+            phoneError.textContent = "Введите номер в формате +71234567890";
+
+    allFilled = false;
+}
+        return allFilled;
+    }
+
+    // Нажали на кнопку "Зарегистрироваться" — проверяем поля
+    openModalBtn.addEventListener("click", function () {
+        if (areAllFieldsFilled()) {
+            modal.style.display = "flex";
+        }
+    });
+
+    // Закрытие модалки
+    closeModal.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // Закрытие модалки по клику вне окна
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Обработка отправки формы из модального окна
+    submitModalBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Прерываем стандартную отправку формы
+
+
+        if (areModalFieldsFilled()) {
+            let extraFields = {
+                first_name: firstName.value,
+                last_name: lastName.value,
+                city: city.value,
+                role: role.value,
+                phone_number: phone.value,
+
+            };
+
+            for (let key in extraFields) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = extraFields[key];
+                signupForm.appendChild(input);
+            }
+
+            modal.style.display = 'none';
+            signupForm.submit(); // Отправка формы вручную
+        }
+    });
+});
+
+
+  function onTelegramAuth(user) {
+    fetch("/telegram-login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      body: JSON.stringify(user)
+    }).then(res => {
+      if (res.ok) {
+        window.location.href = "/profile/";
+      }
+    });
+  }
+
+  // CSRF
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+     </script>
+
+
+</html>

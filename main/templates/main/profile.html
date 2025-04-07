@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+ {% load static %}
+<html style="font-size: 16px;" lang="ru"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'main/css/hotlin.css' %}" media="screen">
+<link rel="stylesheet" href="{% static 'main/css/profile.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'main/js/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'main/js/hotlin.js' %}" defer=""></script>
+
+
+
+
+
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+</head>
+  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="ru"><header class="u-clearfix u-header u-header" id="header"><div class="u-clearfix u-sheet u-sheet-1">
+        <a href="#" class="u-image u-logo u-image-1" data-image-width="80" data-image-height="40">
+          <img src="images/default-logo.png" class="u-logo-image u-logo-image-1">
+        </a>
+        <nav class="u-align-left u-font-size-14 u-menu u-menu-hamburger u-nav-spacing-25 u-offcanvas u-menu-1" data-responsive-from="XL">
+          <div class="menu-collapse">
+            <a class="u-button-style u-hamburger-link u-nav-link u-hamburger-link-1" href="#">
+              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-7b92" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
+</g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="./" style="padding: 10px 20px;">Главная</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="О-нас.html" style="padding: 10px 20px;">О нас</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Контакты.html" style="padding: 10px 20px;">Контакты</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Страница-2.html" style="padding: 10px 20px;">Личный кабинет</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 10px 20px;">Выйти</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-align-center u-black u-container-align-center u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav u-sidenav-1">
+              <div class="u-inner-container-layout u-sidenav-overflow" style="padding: 0px 0px 165px;">
+                <div class="u-menu-close u-menu-close-1"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./" style="padding-top: 16px; padding-bottom: 16px;">Главная</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="О-нас.html" style="padding-top: 16px; padding-bottom: 16px;">О нас</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'logout' %}" style="padding-top: 16px; padding-bottom: 16px;">Выйти</a>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+      </div></header>
+    <section class="u-clearfix u-section-1" id="block-1">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-palette-1-base u-preserve-proportions u-shape u-shape-circle u-shape-1"></div>
+        <p class="u-text u-text-default u-text-1">{{ user.first_name }} {{ user.last_name }}</p>
+        <p class="u-text u-text-default u-text-2">{{ user.role }} </p>
+        <p class="u-text u-text-default u-text-3">Город: {{ user.city }}<br>
+        </p>
+        <div class="u-custom-color-1 u-preserve-proportions u-shape u-shape-circle u-shape-2"></div>
+        <p class="u-text u-text-default u-text-4">Возраст: {{ user.age }}<br>
+        </p>
+        <p class="u-text u-text-default u-text-6">Телефон: {{ user.phone_number }}<br>
+        </p>
+        <img class="u-image u-image-default u-image-1" src="{% static 'main/img/50056fb9.svg' %}" alt="" data-image-width="400" data-image-height="265">
+
+       <a id="open-modal-btn" class="u-btn">Редактировать профиль</a>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="close-modal-span">×</span>
+    <h2 id="modal-title">Редактировать профиль</h2>
+    <form id="modal-form" method="POST" action="{% url 'edit_profile' %}">
+      {% csrf_token %}
+      <label for="first_name">Имя:</label>
+      <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" />
+        <span id="firstNameError" class="error_model"></span>
+
+      <label for="last_name">Фамилия:</label>
+      <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" />
+         <span id="firstNameError" class="error_model"></span>
+      <label for="city">Город:</label>
+      <input type="text" id="city" name="city" value="{{ user.city }}" />
+         <span id="firstNameError" class="error_model"></span>
+    <label for="age">Возраст:</label>
+      <input type="text" id="age" name="age" value="{{ user.age }}" />
+         <span id="firstNameError" class="error_model"></span>
+      <label for="phone_number">Телефон:</label>
+      <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}" />
+         <span id="phone_number" class="error_model"></span>
+      <label for="role">Роль:</label>
+      <select id="role" name="role">
+ <option value="svo" {% if user.role == 'svo' %}selected{% endif %}>Боейц СВО</option>
+      <option value="peresel" {% if user.role == 'peresel' %}selected{% endif %}>Переселенец</option>
+         <option value="famile" {% if user.role == 'famile' %}selected{% endif %}>Семья бойца</option>
+      </select>
+
+      <button type="submit" id="submit-form-btn">Сохранить</button>
+    </form>
+  </div>
+</div>
+
+   {% if user.profile.role == 'svo' or 'family' or 'peresel' %}
+    <div class="section">
+        <h2>Мои заявки</h2>
+        <ul>
+            {% for req in help_requests %}
+                <li><strong>{{ req.title }}</strong> — {{ req.get_status_display }}</li>
+            {% empty %}
+                <li>У вас пока нет заявок</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% elif user.profile.role in 'volunteer' or 'mentor' %}
+    <div class="section">
+        <h2>Доступные заявки</h2>
+        <ul>
+            {% for req in available_requests %}
+                <li>
+                    <strong>{{ req.title }}</strong> — {{ req.get_status_display }}
+                    <!-- Можно добавить кнопку "Взять заявку" -->
+                </li>
+            {% empty %}
+                <li>Нет доступных заявок</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Назначенные заявки</h2>
+        <ul>
+            {% for req in assigned_requests %}
+                <li><strong>{{ req.title }}</strong> — {{ req.get_status_display }}</li>
+            {% empty %}
+                <li>Нет назначенных заявок</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
+    <a class="logout-link" href="{% url 'logout' %}">Выйти</a>
+</div>
+
+
+
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer"><div class="u-clearfix u-sheet u-sheet-1"></div></footer>
+</body>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+   const modal = document.getElementById("modal");
+const closeModal = document.getElementById("close-modal-span");
+const openModalBtn = document.getElementById("open-modal-btn");
+const signupForm = document.getElementById("signupForm");
+
+const firstName = document.getElementById('first_name');
+const lastName = document.getElementById('last_name');
+const city = document.getElementById('city');
+const phone = document.getElementById('phone_number');
+const submitModalBtn = document.getElementById("submit-form-btn");
+
+const firstNameError = document.getElementById("firstNameError");
+const lastNameError = document.getElementById("lastNameError");
+const cityError = document.getElementById("cityError");
+const phoneError = document.getElementById("phoneError");
+const ageError = document.getElementById("ageError");
+
+// Изначально скрыто
+modal.style.display = "none";
+
+// Открытие модального окна
+openModalBtn.addEventListener("click", function () {
+    modal.style.display = "flex";
+});
+
+// Закрытие модального окна
+closeModal.onclick = function () {
+    modal.style.display = "none";
+};
+
+// Закрытие по клику вне модального окна
+window.onclick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Функция проверки данных
+function validateForm() {
+    let allValid = true;
+
+    // Очистка ошибок
+    firstNameError.textContent = '';
+    lastNameError.textContent = '';
+    cityError.textContent = '';
+    phoneError.textContent = '';
+    ageError.textContent = '';
+
+    // Проверка на пустое имя
+    if (!firstName.value.trim()) {
+        firstNameError.textContent = "Введите имя";
+        allValid = false;
+    }
+
+    // Проверка на пустую фамилию
+    if (!lastName.value.trim()) {
+        lastNameError.textContent = "Введите фамилию";
+        allValid = false;
+    }
+
+    // Проверка на пустой город
+    if (!city.value.trim()) {
+        cityError.textContent = "Введите город";
+        allValid = false;
+    }
+
+    // Проверка на корректный номер телефона
+    if (!phone.value.trim()) {
+        phoneError.textContent = "Введите телефон";
+        allValid = false;
+    }
+
+    // Проверка возраста
+    const age = parseInt(ageInput.value, 10);
+    if (age <= 0 || age > 100) {
+        ageError.textContent = "Введите корректный возраст (до 100)";
+        allValid = false;
+    }
+
+    return allValid;
+}
+});
+
+</script>
+</html>

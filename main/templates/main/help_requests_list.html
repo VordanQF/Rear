@@ -1,0 +1,12 @@
+
+{% block content %}
+  <h2>Мои запросы на помощь</h2>
+  <ul>
+    {% for request in requests %}
+      <li>
+        {{ request.title }} - Статус: {{ request.get_status_display }}
+        <a href="{% url 'about'  %}">Подробнее</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
