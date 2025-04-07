@@ -9,6 +9,7 @@ conn = sqlite3.connect('db.sqlite3')
 curs = conn.cursor()
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
+print(f'Апи токен: {API_TOKEN}')
 
 bot = telebot.TeleBot(API_TOKEN)
 
