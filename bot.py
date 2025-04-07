@@ -8,6 +8,8 @@ import os, json, sqlite3, telebot
 conn = sqlite3.connect('db.sqlite3')
 curs = conn.cursor()
 
+load_dotenv()
+
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 print(f'Апи токен: {API_TOKEN}')
 
