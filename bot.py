@@ -9,7 +9,7 @@ conn = sqlite3.connect('db.sqlite3')
 curs = conn.cursor()
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
- 
+
 def delete_message(message):
     print(f'\n\n{message=}\n\n')
     bot.delete_message(message['chat']['id'], message['message_id'])
