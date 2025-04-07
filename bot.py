@@ -22,7 +22,11 @@ def delete_message(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    bot.send_message(message.chat.id, "Привет! Придумай тему для заказа: ")
+    reply = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей!"
+    curs.execute("select * from main_user")
+    result = curs.fetchall()
+    for el in result: reply += f"\n{el}"
+    bot.send_message(message.chat.id, reply)
     bot.register_next_step_handler(message, process_task_type)
 
-connection.close()
+bot.infinity_polling()
