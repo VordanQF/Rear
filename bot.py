@@ -5,9 +5,6 @@ from telebot.types import ReactionTypeEmoji
 from dotenv import load_dotenv
 import os, json, sqlite3, telebot
 
-conn = sqlite3.connect('db.sqlite3')
-curs = conn.cursor()
-
 load_dotenv()
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
@@ -22,11 +19,17 @@ def delete_message(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
+    conn = sqlite3.connect('db.sqlite3')
+    curs = conn.cursor()
+
     reply = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей!"
     curs.execute("select * from main_user")
     result = curs.fetchall()
-    for el in result: reply += f"\n{el}"
+    for el in result:
+        reply += f"\n{el}"
     bot.send_message(message.chat.id, reply)
     bot.register_next_step_handler(message, process_task_type)
+
+    conn.close()
 
 bot.infinity_polling()
