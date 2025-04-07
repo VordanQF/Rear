@@ -3,7 +3,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from telebot.types import ReactionTypeEmoji
 
 from dotenv import load_dotenv
-import os, json, sqlite3, telebot
+import os, json, sqlite3, telebot, time
 
 load_dotenv()
 
@@ -22,11 +22,14 @@ def cmd_start(message):
     conn = sqlite3.connect('db.sqlite3')
     curs = conn.cursor()
 
-    reply = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей!"
+    hello = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей!"
+    reply = ''
     curs.execute("select * from main_user")
     result = curs.fetchall()
     for el in result:
         reply += f"\n{el}"
+    bot.send_message(message.chat.id, hello)
+    time.sleep(3)
     bot.send_message(message.chat.id, reply)
     bot.register_next_step_handler(message, process_task_type)
 
