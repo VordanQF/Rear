@@ -34,7 +34,7 @@ def cmd_start(message):
     conn.close()
 
 
-@bot.message_handler(commands=['verify']))
+@bot.message_handler(commands=['verify'])
 def verify(message):
     conn = sqlite3.connect('db.sqlite3')
     curs = conn.cursor()
