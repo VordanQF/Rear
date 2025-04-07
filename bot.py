@@ -21,7 +21,31 @@ def delete_message(message):
 def cmd_start(message):
     conn = sqlite3.connect('db.sqlite3')
     curs = conn.cursor()
-    bot.send_message(message.chat.id, "Привет! Что будете заказывать?")
+    bot.send_message(message.chat.id, "Привет! Что будете заказывать? Выберите снизу!")
+    curs.execute("select * from main_user")
+    result = curs.fetchall()
+    for el in result:
+        reply += f"\n{el}"
+
+    time.sleep(3)
+    bot.send_message(message.chat.id, reply)
+    bot.register_next_step_handler(message, process_task_type)
+
+    (conn.close()
+
+
+@bot.message_handler(commands=['verify']))
+def cmd_start(message):
+    conn = sqlite3.connect('db.sqlite3')
+    curs = conn.cursor()
+
+    curs.execute('select * from main_user where telegram_id = ?', (message.from_user.id,))
+    user = curs.fetchone()
+
+    if not user:
+        bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе привязать телеграм!")
+
+    bot.send_message(message.chat.id, "Привет! Пришлите документы для подтверждения личности")
     curs.execute("select * from main_user")
     result = curs.fetchall()
     for el in result:
