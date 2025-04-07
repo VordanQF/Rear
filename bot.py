@@ -43,14 +43,11 @@ def verify(message):
     user = curs.fetchone()
 
     if not user:
-        bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе привязать телеграм!")
+        bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе!")
+        return
     else: print('пользователь найден')
 
-    bot.send_message(message.chat.id, "Привет! Пришлите документы для подтверждения личности")
-    curs.execute("select * from main_user")
-    result = curs.fetchall()
-    for el in result:
-        reply += f"\n{el}"
+    bot.send_message(message.chat.id, "Отправьте документ, удостоверяющий личность.")
 
     time.sleep(3)
     bot.send_message(message.chat.id, reply)
