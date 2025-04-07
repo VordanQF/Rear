@@ -10,6 +10,8 @@ curs = conn.cursor()
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 
+bot = telebot.TeleBot(API_TOKEN)
+
 def delete_message(message):
     print(f'\n\n{message=}\n\n')
     bot.delete_message(message['chat']['id'], message['message_id'])
