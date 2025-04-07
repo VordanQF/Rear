@@ -44,6 +44,7 @@ def cmd_start(message):
 
     if not user:
         bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе привязать телеграм!")
+    else: print('пользователь найден')
 
     bot.send_message(message.chat.id, "Привет! Пришлите документы для подтверждения личности")
     curs.execute("select * from main_user")
