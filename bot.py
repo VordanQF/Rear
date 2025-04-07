@@ -22,7 +22,7 @@ def cmd_start(message):
     conn = sqlite3.connect('db.sqlite3')
     curs = conn.cursor()
 
-    hello = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей!"
+    hello = "Привет! Я не знаю, что тебе нужно, но вот тебе список пользователей (найди гойду)!"
     reply = ''
     curs.execute("select * from main_user")
     result = curs.fetchall()
