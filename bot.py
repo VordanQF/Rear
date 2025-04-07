@@ -31,7 +31,7 @@ def cmd_start(message):
     bot.send_message(message.chat.id, reply)
     bot.register_next_step_handler(message, process_task_type)
 
-    (conn.close()
+    conn.close()
 
 
 @bot.message_handler(commands=['verify']))
