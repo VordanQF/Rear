@@ -290,8 +290,8 @@ def finish_order(call):
 def reject_order(call):
     # try:
         order_id = int(call.data.split("_")[1])
-        order = send_sql('select * from main_helprequest where id = %s', (order_id))['result'][0]
-
+        order = send_sql('select * from main_helprequest where id = %s', (order_id))#['result'][0]
+        print(f'{order=}')
         if not order:
             bot.answer_callback_query(call.id, "Заказ не найден.")
             return
