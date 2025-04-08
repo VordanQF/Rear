@@ -129,7 +129,6 @@ def delete_account(message):
     send_sql('delete from main_user where telegram_id = (%s)', (message.from_user.id))
     bot.send_message(message.chat.id, "Ваш аккаунт удален из системы.")
 
-
 def process_task_type(message):
     task_type = message.text
     bot.send_message(message.chat.id, "Опишите проблемю")
@@ -137,22 +136,26 @@ def process_task_type(message):
 
 def process_description(message, task_type):
     description = message.text
-    bot.send_message(message.chat.id, "Пожелания?")
+    bot.send_message(message.chat.id, 'Подтвердите отправку формы, написав "ДА"')
     bot.register_next_step_handler(message, process_wishes, task_type, description)
 
 def process_wishes(message, task_type, description):
-    global curs, conn
-    wishes = message.text
+    acception = message.text
+
+    if acception.lower() != 'да':
+        bot.chat('Отправка отменена.')
+        return
+
+    user = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))
 
     response = send_sql(
-        "insert into main_helprequest (title, description, created_at, status, location, telegram_notified, user_id, task_type)"
+        "insert into main_helprequest (user_id, title, description, created_at, status, location, telegram_notified)"
         "values"    
-        "(%s, (%s), (%s), (%s), (%s), 'В ожидании');",
+        "(%s, (%s), (%s), CURRENT_TIMESTAMP, 'В ожидании', (%s), false);",
         (message.from_user.id,
-         message.from_user.username or message.from_user.full_name,
          task_type,
          description,
-         wishes,)
+         user['location'])
     )
 
     print(f'{response=}')
@@ -165,7 +168,6 @@ def process_wishes(message, task_type, description):
         f"📥 Новая форма #{order_id}!\n\n"
         f"🔧 Тип: {task_type}\n"
         f"📝 Описание: {description}\n"
-        f"💡 Пожелания: {wishes}\n"
         f"👤 Пользователь: @{message.from_user.username or message.from_user.full_name}"
     )
 
