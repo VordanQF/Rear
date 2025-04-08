@@ -143,10 +143,10 @@ def delete_account(message):
     USER = USER[0]
     print(f'{USER=}')
     bot.send_message(message.chat.id, "Ваш аккаунт\n"
-                                  f"Имя: {USER['first_name']}"
-                                  f"Фамилия: {USER['last_name']}"
-                                  f"Возраст: {USER['age']}"
-                                  f"Город: {USER['city']}"
+                                  f"Имя: {USER['first_name']}\n"
+                                  f"Фамилия: {USER['last_name']}\n"
+                                  f"Возраст: {USER['age']}\n"
+                                  f"Город: {USER['city']}\n"
                                   f"Верифицирован: {'да' if USER['verified'] else 'нет'}")
 
 def process_task_type(message):
