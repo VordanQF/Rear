@@ -170,7 +170,7 @@ def process_wishes(message, task_type, description):
         f""
         f"Название: {task_type}\n"
         f"Проблема: {description}\n\n"
-        f"Город: {order['location']}\n"
+        f"Город: {user['city']}\n"
         f"{'Личность подтверждена' if user['verified'] else 'Не подтверждённый пользователь'}\n"
         f"Контакт: @{message.from_user.username or message.from_user.full_name}"
     )
