@@ -94,7 +94,8 @@ def registration_handler(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    USER = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))
+    USER = send_sql('select 1 from main_user where telegram_id = (%s)', (message.from_user.id))
+    print(f'{USER=}')
     if not USER:
         bot.send_message(message.chat.id, "Сначала нужно пройти опрос для регистрации!")
         bot.send_message(message.chat.id, "Пожалуйста, укажите регион и населённый пункт проживания:")
@@ -107,7 +108,7 @@ def cmd_start(message):
 
 @bot.message_handler(commands=['deleteaccount'])
 def delete_account(message):
-    USER = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))
+    USER = send_sql('select 1 from main_user where telegram_id = (%s)', (message.from_user.id))
     if not USER:
         bot.send_message(message.chat.id, "Вы еще не зарегистрированы!")
         return
