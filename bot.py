@@ -142,7 +142,7 @@ def delete_account(message):
         return
     USER = USER[0]
     print(f'{USER=}')
-bot.send_message(message.chat.id, "Ваш аккаунт\n"
+    bot.send_message(message.chat.id, "Ваш аккаунт\n"
                                   f"Имя: {USER['first_name']}"
                                   f"Фамилия: {USER['last_name']}"
                                   f"Возраст: {USER['age']}"
