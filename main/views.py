@@ -86,21 +86,47 @@ def help_requests_list(request):
     return render(request, 'main/help_requests_list.html', {'requests': requests})
 
 
-def profile_update(request):
-    user = request.user
+
+def verify_phone(request):
+    step = 'enter_phone'  # Начинаем с шага ввода номера
+    message = ''
+    status = 'success'
+
+    # Эталонный код для проверки
+    correct_code = '1234'
 
     if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.city = request.POST.get('city')
-        user.age = request.POST.get('age')
-        user.phone_number = request.POST.get('phone_number')
-        user.role = request.POST.get('role')
+        step = request.POST.get('step')  # Получаем текущий шаг
 
-        user.save()
+        if step == 'send_code':
+            phone_number = request.POST.get('phone')
+            if phone_number:
+                # Сохраняем номер телефона в сессии (для дальнейших целей, если нужно)
+                request.session['phone_number'] = phone_number
 
-        return redirect('about')
+                # Переходим к шагу ввода кода
+                step = 'enter_code'  # Переходим к шагу ввода кода
 
+            else:
+                status = 'error'
+
+
+        elif step == 'verify_code':
+            entered_code = request.POST.get('code')
+            # Логика сравнения введенного кода с эталонным значением
+            if entered_code == correct_code:
+                # Если код правильный, помечаем пользователя как верифицированного
+                request.user.verified = True
+                request.user.save()
+                return redirect('glav')  # Перенаправляем на главную страницу
+            else:
+                status = 'error'
+                step = 'enter_code'  # Остаёмся на шаге ввода кода
+
+    return render(request, 'main/edit_profile.html', {
+        'step': step,
+        'status': status
+    })
 
 def signup_view(request):
     if request.method == 'POST':
@@ -117,7 +143,7 @@ def signup_view(request):
 
             user.save()
             login(request, user)
-            return redirect('glav')
+            return redirect('about/edit')
         else:
             return redirect(f'/login/?open=true&errorname=true')
     return render(request, 'registration/login.html', {'form': SignUpForm()})

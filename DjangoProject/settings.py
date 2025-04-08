@@ -143,6 +143,7 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'glav'
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Сессии в базе данных
+SESSION_COOKIE_NAME = 'sessionid'
 
 TELEGRAM_BOT_TOKEN ='7941424156:AAHJvzZI0OSaXMXR8lunSGY_-GKOPOSpdJ4'

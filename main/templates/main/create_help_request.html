@@ -1,10 +1,27 @@
-
-
 {% block content %}
-  <h2>Создать запрос на помощь</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить запрос</button>
-  </form>
+  <div class="form-container" style="max-width: 600px; margin: 0 auto; padding: 30px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #333; margin-bottom: 25px;">Создать запрос на помощь</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div style="margin-bottom: 20px;">
+          <label for="{{ field.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 5px; color: #444;">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.help_text %}
+            <small style="color: #888;">{{ field.help_text }}</small>
+          {% endif %}
+          {% if field.errors %}
+            <div style="color: red; font-size: 14px;">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" style="width: 100%; padding: 12px; background-color: #007BFF; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease;">
+        Отправить запрос
+      </button>
+    </form>
+  </div>
 {% endblock %}

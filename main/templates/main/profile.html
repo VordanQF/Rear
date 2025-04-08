@@ -53,7 +53,7 @@
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-palette-1-base u-preserve-proportions u-shape u-shape-circle u-shape-1"></div>
         <p class="u-text u-text-default u-text-1">{{ user.first_name }} {{ user.last_name }}</p>
-        <p class="u-text u-text-default u-text-2">{{ user.role }} </p>
+        <p class="u-text u-text-default u-text-2">{{ user.get_role_display }} </p>
         <p class="u-text u-text-default u-text-3">Город: {{ user.city }}<br>
         </p>
         <div class="u-custom-color-1 u-preserve-proportions u-shape u-shape-circle u-shape-2"></div>
@@ -87,11 +87,11 @@
       <label for="phone_number">Телефон:</label>
       <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}" />
          <span id="phone_number" class="error_model"></span>
-      <label for="role">Роль:</label>
+      <label for="role">Кто ты:</label>
       <select id="role" name="role">
  <option value="svo" {% if user.role == 'svo' %}selected{% endif %}>Боейц СВО</option>
       <option value="peresel" {% if user.role == 'peresel' %}selected{% endif %}>Переселенец</option>
-         <option value="famile" {% if user.role == 'famile' %}selected{% endif %}>Семья бойца</option>
+         <option value="family" {% if user.role == 'family' %}selected{% endif %}>Семья бойца</option>
       </select>
 
       <button type="submit" id="submit-form-btn">Сохранить</button>

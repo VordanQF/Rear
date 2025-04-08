@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ffffff;
+    background-color: #DAE8D3;
     column-gap: 30px;
 }
 .form{
@@ -22,7 +22,7 @@
     width: 100%;
     padding: 30px;
     border-radius: 6px;
-    background: #FFF;
+    background: #A2CAA0;
 }
 .form.signup{
     opacity: 0;
@@ -59,7 +59,7 @@ form{
     border: none;
     font-size: 16px;
     font-weight: 400;
-    border-radius: 6px;
+    border-radius: 18px;
 }
 .field input{
     outline: none;
@@ -81,12 +81,12 @@ form{
 }
 .field button{
     color: #fff;
-    background-color: #0000ff;
+    background-color: #4B814D;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 .field button:hover{
-    background-color: #0000ff;
+    background-color: #2E4A2B;
 }
 .form-link{
     text-align: center;
@@ -106,6 +106,7 @@ form{
     text-decoration: underline;
 }
 .line{
+    display: none;
     position: relative;
     height: 1px;
     width: 100%;
@@ -194,6 +195,7 @@ a.google span{
 
 /* Модальное окно */
 .modal-content {
+    margin-top: -120px;
   background-color: white;
   padding: 24px 30px;
   border-radius: 12px;

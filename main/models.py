@@ -23,13 +23,16 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     avatar = models.URLField(null=True, blank=True)
     telegram_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    role = models.CharField(max_length=30, choices=[('svo', 'Боец СВО'),
-                                                   ('volunteer', 'Волонтёр'),
-                                                   ('mentor', 'Наставник'),
-                                                    ('peresel', 'Переселенец'),
-                                                    ('family', 'Семья бойцов'),
-                                                   ('admin', 'Администратор')],
-                            default='user')
+    role = models.CharField(max_length=30, choices=[
+            ('svo', 'Боец СВО'),
+            ('volunteer', 'Волонтёр'),
+            ('mentor', 'Наставник'),
+            ('peresel', 'Переселенец'),
+            ('family', 'Семья бойцов'),
+            ('admin', 'Администратор')
+        ],
+        default='user'
+    )
     age = models.IntegerField(
         default=0,
         validators=[
@@ -40,7 +43,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
-
+    verified = models.BooleanField(default=False)
     objects = CustomUserManager()
 
     def __str__(self):

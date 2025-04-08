@@ -1,57 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Подтверждение номера</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #DAE8D3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #005bff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4B814D;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2E4A2B;
+    }
+
+    .message {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .message.success {
+      color: #2e8b57;
+    }
+
+    .message.error {
+      color: #c62828;
+    }
+
+    .success-icon {
+      font-size: 40px;
+      text-align: center;
+      color: #2e8b57;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-{% block content %}
-<style>
-    .form-container {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 20px;
-        border-radius: 12px;
-        background-color: #fdfdfd;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-        font-family: sans-serif;
-    }
-    .form-container h2 {
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: #333;
-    }
-    .form-container form input,
-    .form-container form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-    }
-    .form-container form button {
-        padding: 10px 20px;
-        background-color: #0051ff;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    .form-container form button:hover {
-        background-color: #003ecc;
-    }
-</style>
 
-<div class="form-container">
-    <h2>Редактировать профиль</h2>
-    <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить</button>
-</form>
-</div>
-{% endblock %}
+  <div class="card">
+    <h1>Подтверждение номера</h1>
+
+    {% if message %}
+      <div class="message {% if status == 'error' %}error{% else %}success{% endif %}">
+        {{ message }}
+      </div>
+    {% endif %}
+
+    <div id="phone-step" class="verification-step">
+      <form method="post" id="phone-form">
+        {% csrf_token %}
+        <input type="hidden" name="step" value="send_code">
+
+        <label for="phone">Введите номер телефона</label>
+        <input type="text" name="phone" id="phone" placeholder="+7 (999) 123-45-67" required>
+
+        <button type="submit">Отправить код</button>
+      </form>
+    </div>
+
+    <div id="code-step" class="verification-step hidden">
+      <form method="post" id="code-form">
+        {% csrf_token %}
+        <input type="hidden" name="step" value="verify_code">
+
+        <label for="code">Введите код из SMS</label>
+        <input type="text" name="code" id="code" placeholder="Код подтверждения" required>
+
+        <button type="submit">Подтвердить</button>
+      </form>
+    </div>
+
+    {% if step == 'done' %}
+      <div class="success-icon">✅</div>
+      <div class="message success">Телефон успешно подтверждён!</div>
+    {% endif %}
+  </div>
+
+  <script>
+    // Функция для переключения между шагами
+    const phoneForm = document.getElementById('phone-form');
+    const codeForm = document.getElementById('code-form');
+    const phoneStep = document.getElementById('phone-step');
+    const codeStep = document.getElementById('code-step');
+
+    // Обработчик отправки формы с номером телефона
+    phoneForm.addEventListener('submit', function (event) {
+      event.preventDefault();  // Предотвращаем стандартную отправку формы
+
+      // Скрываем форму ввода номера
+      phoneStep.classList.add('hidden');
+
+      // Показываем форму ввода кода
+      codeStep.classList.remove('hidden');
+
+    });
+  </script>
+
 </body>
 </html>

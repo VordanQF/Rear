@@ -1,12 +1,213 @@
-
 {% block content %}
-  <h2>Мои запросы на помощь</h2>
-  <ul>
-    {% for request in requests %}
-      <li>
-        {{ request.title }} - Статус: {{ request.get_status_display }}
-        <a href="{% url 'about'  %}">Подробнее</a>
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <h2 class="title">Мои запросы на помощь</h2>
+
+    <div class="requests-list">
+      {% for request in requests %}
+        <div class="request-item">
+          <div class="request-header">
+            <h3 class="request-title">{{ request.title }}</h3>
+            <span class="status {{ request.status }}">{{ request.get_status_display }}</span>
+          </div>
+
+          <button class="details-btn" onclick="toggleDetails('details-{{ request.id }}')">Подробнее</button>
+
+          <div id="details-{{ request.id }}" class="request-details">
+            <p><strong>Описание:</strong> {{ request.description }}</p>
+            <p><strong>Локация:</strong> {{ request.location }}</p>
+            <p><strong>Дата создания:</strong> {{ request.created_at|date:"d.m.Y H:i" }}</p>
+
+            {% if request.status == 'pending' %}
+              <p class="italic">Заявка находится в ожидании.</p>
+              {% if request.assigned_volunteer %}
+                <div class="assigned-volunteer">
+                  <p><strong>Рассматривает:</strong> {{ request.assigned_volunteer.get_full_name }}</p>
+                  {% if request.assigned_volunteer.telegram_id %}
+                    <p><strong>Telegram:</strong>
+                      <a href="https://t.me/{{ request.assigned_volunteer.telegram_id }}" class="telegram-link" target="_blank">@{{ request.assigned_volunteer.telegram_id }}</a>
+                    </p>
+                  {% endif %}
+                </div>
+              {% else %}
+                <p class="italic">Заявка ещё не назначена волонтёру.</p>
+              {% endif %}
+
+            {% elif request.status == 'in_progress' %}
+              <div class="in-progress">
+                <p><strong>Исполнитель:</strong> {{ request.assigned_volunteer.get_full_name }}</p>
+                {% if request.assigned_volunteer.telegram_id %}
+                  <p><strong>Telegram:</strong>
+                    <a href="https://t.me/{{ request.assigned_volunteer.telegram_id }}" class="telegram-link" target="_blank">@{{ request.assigned_volunteer.telegram_id }}</a>
+                  </p>
+                {% endif %}
+              </div>
+
+            {% elif request.status == 'resolved' %}
+              <div class="resolved">
+                <p><strong>Заявка решена.</strong></p>
+                {% if request.feedback %}
+                  <p><strong>Ваша оценка:</strong> {{ request.feedback.rating }}/5</p>
+                  <p><em>{{ request.feedback.comment }}</em></p>
+                {% else %}
+                  <a href="{% url 'support'  %}" class="rate-link">Оценить помощь</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+<style>/* Общие стили */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Стили для списка запросов */
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.request-item {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.request-title {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.status {
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.status.pending {
+  background-color: #f1c40f;
+  color: white;
+}
+
+.status.in_progress {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.status.resolved {
+  background-color: #3498db;
+  color: white;
+}
+
+.status.rejected {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Кнопка "Подробнее" */
+.details-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.details-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Детали заявки */
+.request-details {
+  display: none;
+  margin-top: 10px;
+  color: #555;
+}
+
+.request-details p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.italic {
+  font-style: italic;
+  color: #999;
+}
+
+.assigned-volunteer, .in-progress, .resolved {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.assigned-volunteer {
+  background-color: #f9e1a5;
+}
+
+.telegram-link {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.telegram-link:hover {
+  text-decoration: underline;
+}
+
+.rate-link {
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.rate-link:hover {
+  background-color: #2980b9;
+}
+</style>
+  <script>
+    function toggleDetails(id) {
+      const el = document.getElementById(id);
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    }
+  </script>
 {% endblock %}
