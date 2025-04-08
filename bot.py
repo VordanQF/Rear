@@ -124,7 +124,7 @@ def users(message):
 
 @bot.message_handler(commands=['deleteaccount'])
 def delete_account(message):
-    USER = send_sql('select * from main_user where telegram_id = %s', [message.from_user.id])
+    USER = send_sql('select * from main_user where telegram_id = %s', [message.from_user.id])['result'][0]
     if not USER:
         bot.send_message(message.chat.id, "Вы еще не зарегистрированы!")
         return
