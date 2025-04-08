@@ -147,7 +147,8 @@ def delete_account(message):
                                   f"Фамилия:      {USER['last_name']}\n"
                                   f"Возраст:         {USER['age']}\n"
                                   f"Город:             {USER['city']}\n"
-                                  f"Верифицирован: {'да' if USER['verified'] else 'нет'}")
+                                  f"Верифицирован: {'да' if USER['verified'] else 'нет (/verify)'}\n\n"
+                                  f"🛑 Удалить аккаунт - /deleteaccount 🛑")
 
 def process_task_type(message):
     task_type = message.text
