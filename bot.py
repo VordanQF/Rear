@@ -306,7 +306,7 @@ def reject_order(call):
         order['assigned_volunteer_id'] = call.from_user.username or call.from_user.full_name
 
 
-        chatidthatorderedhelp = send_sql(f'select * from main_user where id = {order["user_id"]}')['result'][0]
+        chatidthatorderedhelp = send_sql(f'select * from main_user where id = {order["user_id"]}')['result'][0]['telegram_id']
         print(f'''{chatidthatorderedhelp=}''')
 
         bot.send_message(
