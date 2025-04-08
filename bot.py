@@ -71,7 +71,7 @@ def registration_handler(message):
         data['telegram_id'] = user_id
         data['username'] = message.from_user.username or message.from_user.full_name
 
-        send_sql(
+        response = send_sql(
             "INSERT INTO main_user (telegram_id, username, city, email, first_name, last_name, age, password) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s);",
             [
@@ -85,7 +85,7 @@ def registration_handler(message):
                 'pbkdf2_sha256$870000$xJJhbjEK4sgsdOWgmNzYjb$DyUBZpxdWO5y2LUbKIiqYomp0nUSP04FhyeSE1OF+Ds='
             ]
         )
-
+        print(f'{response=}')
         bot.send_message(message.chat.id, "Благодарим! Регистрация успешно завершена. Теперь Вы можете воспользоваться нашей платформой.")
         user_states.pop(user_id, None)
         return
@@ -154,6 +154,7 @@ def process_wishes(message, task_type, description):
          description,
          wishes,)
     )
+
     print(f'{response=}')
     order_id = response['lastrowid']
 
