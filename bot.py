@@ -213,7 +213,7 @@ def handle_verify_decision(message):
             return
         USER = send_sql('select * from main_user where telegram_id = %s', ([message.from_user.id]))['result']
 
-        if USER: USER = USER[0]
+        if USER: user = USER[0]
 
         caption = f"Заявка на верификацию от @{message.from_user.username or message.from_user.full_name}\nИмя, фамилия: {user['first_name']} {user['last_name']}. Возраст: {user['age']}, место жительства: {user['city']}\nTelegram ID: {user_id}"
         inline_markup = InlineKeyboardMarkup()
