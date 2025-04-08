@@ -104,6 +104,17 @@ def cmd_start(message):
     bot.send_message(message.chat.id, "Привет! Какой тип помощи Вам нужн? (пока без клавиатури)")
     bot.register_next_step_handler(message, process_task_type)
 
+
+@bot.message_handler(commands=['deleteaccount'])
+def delete_account(message):
+    USER = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))
+    if not USER:
+        bot.send_message(message.chat.id, "Вы еще не зарегистрированы!")
+        return
+    send_sql('delete from main_user where telegram_id = (%s)', (message.from_user.id))
+    bot.send_message(message.chat.id, "Ваш аккаунт удален из системы.")
+
+
 def process_task_type(message):
     task_type = message.text
     bot.send_message(message.chat.id, "Опишите проблемю")
