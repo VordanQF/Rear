@@ -96,7 +96,7 @@ def registration_handler(message):
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
     global user_states
-    USER = send_sql('select * from main_user where telegram_id = %s', ([message.from_user.id]))
+    USER = send_sql('select * from main_user where telegram_id = %s', ([message.from_user.id]))['result']
     print(f'{USER=}')
     print(f'{message.from_user.id=}')
     if not USER:
@@ -105,6 +105,8 @@ def cmd_start(message):
         user_states[message.from_user.id] = {'step':0, 'data':{}}
         bot.register_next_step_handler(message, registration_handler)
         return
+
+    USER = USER[0]
 
     bot.send_message(message.chat.id, "Привет! Какой тип помощи Вам нужн? (пока без клавиатури)")
     bot.register_next_step_handler(message, process_task_type)
