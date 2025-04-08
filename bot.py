@@ -12,17 +12,18 @@ print(f'Апи токен: {API_TOKEN}')
 
 bot = telebot.TeleBot(API_TOKEN)
 
-def send_sql(sql, url='http://0.0.0.0:8000/api/sql/'):
+def send_sql(sql, url='http://localhost:8000/api/sql/'):
     headers = {'Content-Type': 'application/json'}
     payload = {'sql': sql}
-
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload))
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        return {'error': str(e)}
-
+        try:
+            return response.json()
+        except:
+            return {'error': str(e)}
 
 def delete_message(message):
     print(f'\n\n{message=}\n\n')
