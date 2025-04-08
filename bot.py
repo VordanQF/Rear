@@ -154,7 +154,7 @@ def process_wishes(message, task_type, description):
          description,
          wishes,)
     )
-
+    print(f'{response=}')
     order_id = response['lastrowid']
 
     keyboard = InlineKeyboardMarkup()
