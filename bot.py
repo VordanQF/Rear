@@ -146,7 +146,7 @@ def process_wishes(message, task_type, description):
         bot.chat('Отправка отменена.')
         return
 
-    user = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))
+    user = send_sql('select * from main_user where telegram_id = (%s)', (message.from_user.id))['result']
 
     response = send_sql(
         "insert into main_helprequest (user_id, title, description, created_at, status, location, telegram_notified)"
