@@ -293,8 +293,11 @@ def accept_order(call):
         reply_markup=keyboard
     )
 
+    chatidthatorderedhelp = send_sql(f'select * from main_user where id = {order["user_id"]}')['result'][0][
+        'telegram_id']
+
     bot.send_message(
-        chat_id=order["user_id"],
+        chat_id=chatidthatorderedhelp,
         text=f"Ваша форма #{order_id} - {order['title']}, принята на рассмотрение {order['assigned_volunteer_id']}, с Вами свяжутся."
     )
 
