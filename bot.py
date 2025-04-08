@@ -102,7 +102,7 @@ def cmd_start(message):
     if not USER:
         bot.send_message(message.chat.id, "Сначала нужно пройти опрос для регистрации!")
         bot.send_message(message.chat.id, "Пожалуйста, укажите регион и населённый пункт проживания:")
-        user_states[message.from_user.id] = 0
+        user_states[message.from_user.id] = {'step':0, 'data':{}}
         bot.register_next_step_handler(message, registration_handler)
         return
 
