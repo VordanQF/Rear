@@ -145,7 +145,7 @@ def process_wishes(message, task_type, description):
     acception = message.text
 
     if acception.lower() != 'да':
-        bot.send_message(message.chat.id, 'Отправка отменена.')
+        bot.send_message(message.chat.id, f'Отправка отменена, кстати вот настоящий код: {message.chat.id}')
         return
 
     user = send_sql('select * from main_user where telegram_id = %s', (message.from_user.id,))['result'][0]
