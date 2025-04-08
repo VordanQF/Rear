@@ -166,10 +166,12 @@ def process_wishes(message, task_type, description):
     keyboard.add(InlineKeyboardButton(text="✅ Принять", callback_data=f"accept_{order_id}"),
                  InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{order_id}"))
     order_info = (
-        f"📥 Новая форма #{order_id}!\n\n"
-        f"🔧 Тип: {task_type}\n"
-        f"📝 Описание: {description}\n"
-        f"👤 Пользователь: @{message.from_user.username or message.from_user.full_name}"
+        f"Новая форма #{order_id}!\n\n"
+        f""
+        f"Коротко: {task_type}\n"
+        f"Проблема: {description}\n"
+        f""
+        f"@{message.from_user.username or message.from_user.full_name}"
     )
 
     bot.send_message(chat_id=TEAM_CHAT_ID, text=order_info, reply_markup=keyboard)
@@ -311,13 +313,13 @@ def reject_order(call):
 
         bot.send_message(
             chat_id=chatidthatorderedhelp,
-            text=f"Твой заказ #{order_id} был отклонён ❌ {order['assigned_volunteer_id']}"
+            text=f"Ваша форма #{order_id} - {order['title']}, была отклонена ❌ {order['assigned_volunteer_id']}"
         )
 
         bot.edit_message_text(
             chat_id=call.message.chat.id,
             message_id=call.message.message_id,
-            text=call.message.text + "\n\n❌ Заказ отклонён"
+            text=call.message.text + f"\n\n❌ Форма отклонена @{order['assigned_volunteer_id']}"
         )
         send_sql("update main_helprequest "
                      f"SET status = 'Отклонён', assigned_volunteer_id = %s "
@@ -325,7 +327,7 @@ def reject_order(call):
                      (order['assigned_volunteer_id'], order_id)
                      )
 
-        bot.answer_callback_query(call.id, "Заказ отклонён.")
+        bot.answer_callback_query(call.id, "❌ Форма отклонена")
     # except:
     #     print('Не удалось отклонить :(')
 
