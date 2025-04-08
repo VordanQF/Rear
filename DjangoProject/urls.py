@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from main.views import CustomLoginView
+from .views import sql_api
 
 urlpatterns = ([
     path('admin/', admin.site.urls),
