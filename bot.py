@@ -178,14 +178,12 @@ def process_wishes(message, task_type, description):
     bot.send_message(chat_id=TEAM_CHAT_ID, text=order_info, reply_markup=keyboard)
     bot.send_message(message.chat.id, "Форма отправлена <|-_-|>")
 
-
 @bot.message_handler(commands=['verify'])
 def verify(message):
     user = send_sql('select * from main_user where telegram_id = %s', (message.from_user.id,))['result']
     if not user:
         bot.send_message(message.chat.id, "Вам необходимо зарегистрироваться на платформе перед верификацией.")
         return
-
     bot.send_message(message.chat.id, "Пожалуйста, отправьте одну или несколько фотографий документа, удостоверяющего личность.")
     bot.register_next_step_handler(message, collect_verification_photos)
 
@@ -194,13 +192,10 @@ def collect_verification_photos(message):
     if message.content_type != 'photo':
         bot.send_message(message.chat.id, "Пожалуйста, отправьте именно фотографии.")
         return bot.register_next_step_handler(message, collect_verification_photos)
-
     if user_id not in user_states:
         user_states[user_id] = {'docs': []}
-
     file_id = message.photo[-1].file_id
     user_states[user_id]['docs'].append(file_id)
-
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.add("Отправить", "Ещё")
     bot.send_message(message.chat.id, "Фото получено. Хотите отправить заявку или добавить ещё?", reply_markup=markup)
@@ -210,28 +205,43 @@ def handle_verify_decision(message):
     if message.text == "Ещё":
         bot.send_message(message.chat.id, "Отправьте следующее фото.")
         return bot.register_next_step_handler(message, collect_verification_photos)
-
     elif message.text == "Отправить":
         user_id = message.from_user.id
         photos = user_states.get(user_id, {}).get('docs', [])
-
         if not photos:
             bot.send_message(message.chat.id, "Нет загруженных фотографий. Начните заново с /verify")
             return
-
-        caption = f"Запрос на верификацию от @{message.from_user.username or message.from_user.full_name}\nTelegram ID: {user_id}"
-
+        caption = f"Заявка на верификацию от @{message.from_user.username or message.from_user.full_name}\nTelegram ID: {user_id}"
+        inline_markup = InlineKeyboardMarkup()
+        inline_markup.add(
+            InlineKeyboardButton("Подтвердить", callback_data=f"verify_accept_{user_id}"),
+            InlineKeyboardButton("Отклонить", callback_data=f"verify_reject_{user_id}")
+        )
         for i, photo in enumerate(photos):
             if i == 0:
-                bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo, caption=caption)
+                bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo, caption=caption, reply_markup=inline_markup)
             else:
                 bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo)
-
-        bot.send_message(message.chat.id, "Документы отправлены на проверку. Ожидайте подтверждения.")
+        bot.send_message(message.chat.id, "Документы отправлены на проверку. Ожидайте результата.")
         del user_states[user_id]
-
     else:
         bot.send_message(message.chat.id, "Ответ не распознан. Пожалуйста, повторите команду /verify")
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith("verify_accept_"))
+def process_verify_accept(call):
+    telegram_id = int(call.data.split("_")[-1])
+    send_sql("UPDATE main_user SET verified = true WHERE telegram_id = %s", (telegram_id,))
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=None)
+    bot.send_message(chat_id=telegram_id, text="Ваша заявка на верификацию подтверждена.")
+    bot.answer_callback_query(call.id)
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith("verify_reject_"))
+def process_verify_reject(call):
+    telegram_id = int(call.data.split("_")[-1])
+    send_sql("UPDATE main_user SET verified = false WHERE telegram_id = %s", (telegram_id,))
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=None)
+    bot.send_message(chat_id=telegram_id, text="Ваша заявка на верификацию отклонена.")
+    bot.answer_callback_query(call.id)
 
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("accept_"))
