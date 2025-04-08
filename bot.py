@@ -34,8 +34,6 @@ def cmd_start(message):
     bot.send_message(message.chat.id, "Привет! Что будете заказывать? Выберите снизу!")
     users = send_sql("select * from main_user")
     bot.send_message(message.chat.id, users)
-    for el in result:
-        reply += f"\n{el}"
 
     time.sleep(3)
     bot.send_message(message.chat.id, reply)
