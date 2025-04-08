@@ -307,7 +307,7 @@ def reject_order(call):
 
         bot.send_message(
             chat_id=order["user_id"],
-            text=f"Твой заказ #{order_id} был отклонён ❌ {order['executor']}"
+            text=f"Твой заказ #{order_id} был отклонён ❌ {order['assigned_volunteer_id']}"
         )
 
         bot.edit_message_text(
