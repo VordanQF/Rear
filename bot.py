@@ -12,7 +12,7 @@ print(f'Апи токен: {API_TOKEN}')
 
 bot = telebot.TeleBot(API_TOKEN)
 
-def send_sql(sql, url='http://localhost:8000/api/sql/'):
+def send_sql(sql, url='http://0.0.0.0:8000/api/sql/'):
     headers = {'Content-Type': 'application/json'}
     payload = {'sql': sql}
 
