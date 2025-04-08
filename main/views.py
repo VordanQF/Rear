@@ -32,14 +32,22 @@ def sql_api(request):
         try:
             data = json.loads(request.body)
             sql = data.get('sql')
+            params = data.get('params', [])
+
+            if not sql:
+                return JsonResponse({'error': 'sql не передан'}, status=400)
 
             with connection.cursor() as cursor:
-                cursor.execute(sql)
-                columns = [col[0] for col in cursor.description] if cursor.description else []
-                rows = cursor.fetchall()
-                result = [dict(zip(columns, row)) for row in rows]
+                cursor.execute(sql, params)
+                # если это SELECT
+                if cursor.description:
+                    columns = [col[0] for col in cursor.description]
+                    rows = cursor.fetchall()
+                    result = [dict(zip(columns, row)) for row in rows]
+                    return JsonResponse({'result': result})
+                else:
+                    return JsonResponse({'result': 'ok'})  # для insert/update/delete
 
-            return JsonResponse({'result': result})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Only POST allowed'}, status=405)
@@ -79,10 +87,9 @@ def help_requests_list(request):
 
 
 def profile_update(request):
-    user = request.user  # Получаем текущего пользователя
+    user = request.user
 
     if request.method == 'POST':
-        # Получаем новые значения из формы
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.city = request.POST.get('city')
@@ -90,12 +97,9 @@ def profile_update(request):
         user.phone_number = request.POST.get('phone_number')
         user.role = request.POST.get('role')
 
-        # Сохраняем изменения в базе данных
         user.save()
 
-        # Перенаправление на страницу профиля или другую страницу
-        return redirect('about')  # Перенаправление на страницу профиля, например
-
+        return redirect('about')
 
 
 def signup_view(request):
@@ -104,7 +108,6 @@ def signup_view(request):
         if form.is_valid():
             user = form.save(commit=False)
 
-            # Добавляем дополнительные поля из запроса
             user.first_name = request.POST.get('first_name', '')
             user.last_name = request.POST.get('last_name', '')
             user.city = request.POST.get('city', '')
