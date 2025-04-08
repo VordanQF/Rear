@@ -10,7 +10,7 @@ load_dotenv()
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 print(f'Апи токен: {API_TOKEN}')
 
-TEAM_CHAT_ID = -4724773197
+TEAM_CHAT_ID = '-4710653819'
 #TEAM_CHAT_ID=
 
 user_states = {}
