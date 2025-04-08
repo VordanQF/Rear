@@ -94,7 +94,7 @@ def registration_handler(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    USER = send_sql('select 1 from main_user where telegram_id = (%s)', (message.from_user.id))
+    USER = send_sql('select * from main_user where telegram_id = %s', (message.from_user.id))
     print(f'{USER=}')
     print(f'{message.from_user.id=}')
     if not USER:
