@@ -197,7 +197,7 @@ def process_wishes(message, task_type, description):
     )
 
     bot.send_message(chat_id=TEAM_CHAT_ID, text=order_info, reply_markup=keyboard)
-    bot.send_message(message.chat.id, "Форма отправлена <|-_-|>")
+    bot.send_message(message.chat.id, "Форма отправлена.")
 
 @bot.message_handler(commands=['verify'])
 def verify(message):
