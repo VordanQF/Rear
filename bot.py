@@ -147,12 +147,11 @@ def process_wishes(message, task_type, description):
         return
 
     user = send_sql('select * from main_user where telegram_id = %s', (message.from_user.id,))['result'][0]
-    print(f'при записи запоса: {user=}')
     response = send_sql(
         "insert into main_helprequest (user_id, title, description, created_at, status, location, telegram_notified)"
         "values"    
         "(%s, (%s), (%s), CURRENT_TIMESTAMP, 'В ожидании', (%s), false);",
-        (message.from_user.id,
+        (user['id'],
          task_type,
          description,
          user['city'])
