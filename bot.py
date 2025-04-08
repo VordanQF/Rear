@@ -1,5 +1,5 @@
 from telebot import types
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove
 from telebot.types import ReactionTypeEmoji
 
 from dotenv import load_dotenv
@@ -44,7 +44,9 @@ def registration_handler(message):
     state = user_states.get(user_id)
 
     if not state:
-        return bot.send_message(message.chat.id, "Произошла ошибка. Пожалуйста, начните заново, отправив команду /start.")
+        bot.register_next_step_handler(message, registration_handler)
+        return
+
 
     step = state['step']
     data = state['data']
@@ -228,7 +230,7 @@ def handle_verify_decision(message):
         user_id = message.from_user.id
         photos = user_states.get(user_id, {}).get('docs', [])
         if not photos:
-            bot.send_message(message.chat.id, "Нет загруженных фотографий. Начните заново с /verify")
+            bot.send_message(message.chat.id, "Нет загруженных фотографий. Начните заново с /verify", reply_markup=ReplyKeyboardRemove())
             return
         USER = send_sql('select * from main_user where telegram_id = %s', ([message.from_user.id]))['result']
 
@@ -245,7 +247,7 @@ def handle_verify_decision(message):
                 bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo, caption=caption, reply_markup=inline_markup)
             else:
                 bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo)
-        bot.send_message(message.chat.id, "Документы отправлены на проверку. Ожидайте результата.")
+        bot.send_message(message.chat.id, "Документы отправлены на проверку. Ожидайте результата.", reply_markup=ReplyKeyboardRemove())
         del user_states[user_id]
     else:
         bot.send_message(message.chat.id, "Ответ не распознан. Пожалуйста, повторите команду /verify")
