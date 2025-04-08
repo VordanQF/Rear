@@ -102,6 +102,7 @@ def cmd_start(message):
         bot.send_message(message.chat.id, "Пожалуйста, укажите регион и населённый пункт проживания:")
 
         bot.register_next_step_handler(message, registration_handler)
+        return
 
     bot.send_message(message.chat.id, "Привет! Какой тип помощи Вам нужн? (пока без клавиатури)")
     bot.register_next_step_handler(message, process_task_type)
