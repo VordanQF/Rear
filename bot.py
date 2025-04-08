@@ -288,7 +288,7 @@ def finish_order(call):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("reject_"))
 def reject_order(call):
-    try:
+    # try:
         order_id = int(call.data.split("_")[1])
         order = send_sql('select * from main_helprequest where id = %s', (order_id))[0]
 
@@ -322,8 +322,8 @@ def reject_order(call):
                      )
 
         bot.answer_callback_query(call.id, "Заказ отклонён.")
-    except:
-        print('Не удалось отклонить :(')
+    # except:
+    #     print('Не удалось отклонить :(')
 
 
 
