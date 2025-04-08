@@ -39,6 +39,7 @@ def delete_message(message):
 
 
 def registration_handler(message):
+    global user_states
     user_id = message.from_user.id
     state = user_states.get(user_id)
 
@@ -94,13 +95,14 @@ def registration_handler(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
+    global user_states
     USER = send_sql('select * from main_user where telegram_id = %s', ([message.from_user.id]))
     print(f'{USER=}')
     print(f'{message.from_user.id=}')
     if not USER:
         bot.send_message(message.chat.id, "Сначала нужно пройти опрос для регистрации!")
         bot.send_message(message.chat.id, "Пожалуйста, укажите регион и населённый пункт проживания:")
-
+        user_states[message.from_user.id] = 0
         bot.register_next_step_handler(message, registration_handler)
         return
 
