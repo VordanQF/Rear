@@ -168,10 +168,11 @@ def process_wishes(message, task_type, description):
     order_info = (
         f"Новая форма #{order_id}!\n\n"
         f""
-        f"Коротко: {task_type}\n"
-        f"Проблема: {description}\n"
-        f""
-        f"@{message.from_user.username or message.from_user.full_name}"
+        f"Название: {task_type}\n"
+        f"Проблема: {description}\n\n"
+        f"Город: {order['location']}\n"
+        f"{'Личность подтверждена' if user['verified'] else 'Не подтверждённый пользователь'}\n"
+        f"Контакт: @{message.from_user.username or message.from_user.full_name}"
     )
 
     bot.send_message(chat_id=TEAM_CHAT_ID, text=order_info, reply_markup=keyboard)
