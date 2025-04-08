@@ -155,7 +155,7 @@ def process_wishes(message, task_type, description):
         (message.from_user.id,
          task_type,
          description,
-         user['location'])
+         user['city'])
     )
 
     print(f'{response=}')
