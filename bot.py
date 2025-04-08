@@ -272,8 +272,7 @@ def process_verify_reject(call):
 @bot.callback_query_handler(func=lambda call: call.data.startswith("accept_"))
 def accept_order(call):
     order_id = int(call.data.split("_")[1])
-    order = send_sql('select * from main_helprequest where id = %s', [order_id])
-
+    order = send_sql('select * from main_helprequest where id = %s', [order_id])['result'][0]
 
     if not order:
         bot.answer_callback_query(call.id, "Заказ не найден.")
@@ -313,8 +312,7 @@ def accept_order(call):
 @bot.callback_query_handler(func=lambda call: call.data.startswith("finish_"))
 def finish_order(call):
     order_id = int(call.data.split("_")[1])
-    order = send_sql('select * from main_helprequest where id = %s', (order_id))
-
+    order = send_sql('select * from main_helprequest where id = %s', [order_id])['result'][0]
 
     if not order:
         bot.answer_callback_query(call.id, "Заказ не найден.")
@@ -335,8 +333,11 @@ def finish_order(call):
 
     )
 
+    chatidthatorderedhelp = send_sql(f'select * from main_user where id = {order["user_id"]}')['result'][0][
+        'telegram_id']
+
     bot.send_message(
-        chat_id=order["user_id"],
+        chat_id=chatidthatorderedhelp,
         text=f"Ваша форма #{order_id} - {order['title']} помечена как завершённая! Связаться: @{order['executor']}"
     )
 
