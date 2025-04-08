@@ -207,6 +207,9 @@ def verify(message):
         return
     bot.send_message(message.chat.id, "Пожалуйста, отправьте одну или несколько фотографий документа, удостоверяющего личность.")
     bot.register_next_step_handler(message, collect_verification_photos)
+@bot.message_handler(commands=['id'])
+def verify(message):
+    bot.send_message(message.chat.id, f"{message.chat.id}")
 
 def collect_verification_photos(message):
     user_id = message.from_user.id
