@@ -305,10 +305,10 @@ def reject_order(call):
         order["status"] = "Отклонён"
         order['assigned_volunteer_id'] = call.from_user.username or call.from_user.full_name
 
-        print(f'''{send_sql(f'select * from main_user where id = {["user_id"]}')=}''')
+        print(f'''{send_sql(f'select * from main_user where id = {order["user_id"]}')=}''')
 
         bot.send_message(
-            chat_id=send_sql(f'select * from main_user where id = {["user_id"]}')['result'][0],
+            chat_id=send_sql(f'select * from main_user where id = {order["user_id"]}')['result'][0],
             text=f"Твой заказ #{order_id} был отклонён ❌ {order['assigned_volunteer_id']}"
         )
 
