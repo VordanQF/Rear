@@ -25,10 +25,10 @@ def send_sql(sql, params=None, url='http://localhost:8000/api/sql/'):
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload))
         response.raise_for_status()
-        return response.json()
+        return response.json()['result']
     except requests.RequestException as e:
         try:
-            return response.json()['result']
+            return response.json()
         except:
             return {'error': str(e)}
 
