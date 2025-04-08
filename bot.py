@@ -73,7 +73,7 @@ def registration_handler(message):
 
         response = send_sql(
             "INSERT INTO main_user (telegram_id, username, city, email, first_name, last_name, age, password) "
-            "VALUES (%s, %s, %s, %s, %s, %s, %s);",
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
             [
                 data['telegram_id'],
                 data['username'],
