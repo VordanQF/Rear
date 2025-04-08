@@ -28,7 +28,7 @@ def send_sql(sql, params=None, url='http://localhost:8000/api/sql/'):
         return response.json()
     except requests.RequestException as e:
         try:
-            return response.json()
+            return response.json()['result']
         except:
             return {'error': str(e)}
 
