@@ -86,7 +86,7 @@ def registration_handler(message):
             ]
         )
         print(f'{response=}')
-        bot.send_message(message.chat.id, "Благодарим! Регистрация успешно завершена. Теперь Вы можете воспользоваться нашей платформой.")
+        bot.send_message(message.chat.id, "Теперь вам нужно подтвердить личность командой /verify !")
         user_states.pop(user_id, None)
         return
 
