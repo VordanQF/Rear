@@ -131,7 +131,7 @@ def process_wishes(message, task_type, description):
     global curs, conn
     wishes = message.text
 
-    send_sql(
+    response = send_sql(
         "insert into main_helprequest (title, description, created_at, status, location, telegram_notified, user_id, task_type)"
         "values"    
         "(%s, (%s), (%s), (%s), (%s), 'В ожидании');",
@@ -142,24 +142,21 @@ def process_wishes(message, task_type, description):
          wishes,)
     )
 
-    order_id = curs.lastrowid
+    order_id = response['lastrowid']
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add(InlineKeyboardButton(text="✅ Принять", callback_data=f"accept_{order_id}"),
                  InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{order_id}"))
-
     order_info = (
-        f"📥 Новый заказ #{order_id}!\n\n"
-        f"🔧 Задача: {task_type}\n"
+        f"📥 Новая форма #{order_id}!\n\n"
+        f"🔧 Тип: {task_type}\n"
         f"📝 Описание: {description}\n"
         f"💡 Пожелания: {wishes}\n"
-        f"👤 Заказчик: @{message.from_user.username or message.from_user.full_name}"
+        f"👤 Пользователь: @{message.from_user.username or message.from_user.full_name}"
     )
 
-    conn.commit()
-
     bot.send_message(chat_id=TEAM_CHAT_ID, text=order_info, reply_markup=keyboard)
-    bot.send_message(message.chat.id, "Твой заказ записан! Мы скоро свяжемся с тобой 👌")
+    bot.send_message(message.chat.id, "Форма отправлена <|-_-|>")
 
 
 @bot.message_handler(commands=['verify'])
