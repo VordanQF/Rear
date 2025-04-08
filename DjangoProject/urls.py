@@ -19,5 +19,6 @@ urlpatterns = ([
     path('signup/', views.signup_view, name='signup'),
     path('login/', CustomLoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('api/sql/', sql_api),
 ]
                + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))

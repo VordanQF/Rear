@@ -3,7 +3,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from telebot.types import ReactionTypeEmoji
 
 from dotenv import load_dotenv
-import os, json, sqlite3, telebot, time
+import os, json, sqlite3, telebot, time, requests
 
 load_dotenv()
 
@@ -12,6 +12,18 @@ print(f'Апи токен: {API_TOKEN}')
 
 bot = telebot.TeleBot(API_TOKEN)
 
+def send_sql(sql, url='http://localhost:8000/api/sql/'):
+    headers = {'Content-Type': 'application/json'}
+    payload = {'sql': sql}
+
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(payload))
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        return {'error': str(e)}
+
+
 def delete_message(message):
     print(f'\n\n{message=}\n\n')
     bot.delete_message(message['chat']['id'], message['message_id'])
@@ -19,11 +31,9 @@ def delete_message(message):
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    conn = sqlite3.connect('db.sqlite3')
-    curs = conn.cursor()
     bot.send_message(message.chat.id, "Привет! Что будете заказывать? Выберите снизу!")
-    curs.execute("select * from main_user")
-    result = curs.fetchall()
+    users = send_sql("select * from main_user")
+    bot.send_message(message.chat.id, users)
     for el in result:
         reply += f"\n{el}"
 

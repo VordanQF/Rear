@@ -11,6 +11,7 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
+from django.db import connection
 from .models import User
 from django.conf import settings
 def stories(request):
@@ -23,6 +24,25 @@ def support(request):
 
 def glav(request):
     return render(request, 'main/glav.html')
+
+
+@csrf_exempt
+def sql_api(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            sql = data.get('sql')
+
+            with connection.cursor() as cursor:
+                cursor.execute(sql)
+                columns = [col[0] for col in cursor.description] if cursor.description else []
+                rows = cursor.fetchall()
+                result = [dict(zip(columns, row)) for row in rows]
+
+            return JsonResponse({'result': result})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Only POST allowed'}, status=405)
 
 
 def profile_view(request):
