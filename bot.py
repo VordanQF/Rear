@@ -181,18 +181,58 @@ def process_wishes(message, task_type, description):
 
 @bot.message_handler(commands=['verify'])
 def verify(message):
-    send_sql('select * from main_user where telegram_id = ?', (message.from_user.id,))
-
+    user = send_sql('select * from main_user where telegram_id = %s', (message.from_user.id,))['result']
     if not user:
-        bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе!")
+        bot.send_message(message.chat.id, "Вам необходимо зарегистрироваться на платформе перед верификацией.")
         return
-    else: print('пользователь найден')
 
-    bot.send_message(message.chat.id, "Отправьте документ, удостоверяющий личность.")
+    bot.send_message(message.chat.id, "Пожалуйста, отправьте одну или несколько фотографий документа, удостоверяющего личность.")
+    bot.register_next_step_handler(message, collect_verification_photos)
 
-    time.sleep(3)
-    bot.send_message(message.chat.id, reply)
-    bot.register_next_step_handler(message, process_task_type)
+def collect_verification_photos(message):
+    user_id = message.from_user.id
+    if message.content_type != 'photo':
+        bot.send_message(message.chat.id, "Пожалуйста, отправьте именно фотографии.")
+        return bot.register_next_step_handler(message, collect_verification_photos)
+
+    if user_id not in user_states:
+        user_states[user_id] = {'docs': []}
+
+    file_id = message.photo[-1].file_id
+    user_states[user_id]['docs'].append(file_id)
+
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    markup.add("Отправить", "Ещё")
+    bot.send_message(message.chat.id, "Фото получено. Хотите отправить заявку или добавить ещё?", reply_markup=markup)
+    bot.register_next_step_handler(message, handle_verify_decision)
+
+def handle_verify_decision(message):
+    if message.text == "Ещё":
+        bot.send_message(message.chat.id, "Отправьте следующее фото.")
+        return bot.register_next_step_handler(message, collect_verification_photos)
+
+    elif message.text == "Отправить":
+        user_id = message.from_user.id
+        photos = user_states.get(user_id, {}).get('docs', [])
+
+        if not photos:
+            bot.send_message(message.chat.id, "Нет загруженных фотографий. Начните заново с /verify")
+            return
+
+        caption = f"Запрос на верификацию от @{message.from_user.username or message.from_user.full_name}\nTelegram ID: {user_id}"
+
+        for i, photo in enumerate(photos):
+            if i == 0:
+                bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo, caption=caption)
+            else:
+                bot.send_photo(chat_id=TEAM_CHAT_ID, photo=photo)
+
+        bot.send_message(message.chat.id, "Документы отправлены на проверку. Ожидайте подтверждения.")
+        del user_states[user_id]
+
+    else:
+        bot.send_message(message.chat.id, "Ответ не распознан. Пожалуйста, повторите команду /verify")
+
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("accept_"))
 def accept_order(call):
