@@ -109,6 +109,16 @@ def cmd_start(message):
     bot.send_message(message.chat.id, "Привет! Какой тип помощи Вам нужн? (пока без клавиатури)")
     bot.register_next_step_handler(message, process_task_type)
 
+@bot.message_handler(commands=['users'])
+def users(message):
+    global user_states
+    USER = send_sql('select * from main_user')
+    print(f'{USER=}')
+    print(f'{message.from_user.id=}')
+
+    bot.send_message(message.chat.id, str(USER))
+
+
 
 @bot.message_handler(commands=['deleteaccount'])
 def delete_account(message):
