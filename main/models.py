@@ -24,7 +24,7 @@ class User(AbstractUser):
     avatar = models.URLField(null=True, blank=True)
     telegram_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
     role = models.CharField(max_length=30, choices=[
-            ('svo', 'Боец СВО'),
+            ('svo', 'Участник СВО'),
             ('volunteer', 'Волонтёр'),
             ('mentor', 'Наставник'),
             ('peresel', 'Переселенец'),

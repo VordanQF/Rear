@@ -143,7 +143,7 @@ def signup_view(request):
 
             user.save()
             login(request, user)
-            return redirect('about/edit')
+            return render (request, 'main/edit_profile.html')
         else:
             return redirect(f'/login/?open=true&errorname=true')
     return render(request, 'registration/login.html', {'form': SignUpForm()})
@@ -170,13 +170,6 @@ def logout_view(request):
     return redirect('login')
 
 
-class CustomLoginView(BaseLoginView):
-    def get_redirect_url(self):
-        redirect_to = super().get_redirect_url()
-        params = self.request.GET.urlencode()
-        if params:
-            return f"{redirect_to}?{params}"
-        return redirect_to
 
 @csrf_exempt
 def telegram_login(request):
