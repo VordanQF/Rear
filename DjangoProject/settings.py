@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['xn----7sbmefspje6cvfd.xn--p1ai', 'localhost']
 
-
+CSRF_TRUSTED_ORIGINS = ['https://xn----7sbmefspje6cvfd.xn--p1ai']
 
 INSTALLED_APPS = [
     'main',
