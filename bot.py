@@ -110,7 +110,7 @@ def cmd_start(message):
 
     USER = USER[0]
 
-    bot.send_message(message.chat.id, "Привет! Какой тип помощи Вам нужн? (пока без клавиатури)")
+    bot.send_message(message.chat.id, "Привет! Придумайте название своей проблеме.")
     bot.register_next_step_handler(message, process_task_type)
 
 @bot.message_handler(commands=['users'])
@@ -154,7 +154,7 @@ def delete_account(message):
 
 def process_task_type(message):
     task_type = message.text
-    bot.send_message(message.chat.id, "Опишите проблемю")
+    bot.send_message(message.chat.id, "Опишите проблему.")
     bot.register_next_step_handler(message, process_description, task_type)
 
 def process_description(message, task_type):
