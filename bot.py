@@ -181,11 +181,7 @@ def process_wishes(message, task_type, description):
 
 @bot.message_handler(commands=['verify'])
 def verify(message):
-    conn = sqlite3.connect('db.sqlite3')
-    curs = conn.cursor()
-
-    curs.execute('select * from main_user where telegram_id = ?', (message.from_user.id,))
-    user = curs.fetchone()
+    send_sql('select * from main_user where telegram_id = ?', (message.from_user.id,))
 
     if not user:
         bot.send_message(message.chat.id, "Вам нужно зарегистрироваться на платформе!")
@@ -198,61 +194,48 @@ def verify(message):
     bot.send_message(message.chat.id, reply)
     bot.register_next_step_handler(message, process_task_type)
 
-    conn.close()
-
 @bot.callback_query_handler(func=lambda call: call.data.startswith("accept_"))
 def accept_order(call):
-    global curs, conn
     order_id = int(call.data.split("_")[1])
-    curs.execute('select * from orders where id = %s', (order_id))
-    # order = orders.get(order_id)
+    order = send_sql('select * from main_helprequest where id = %s', [order_id])
 
-    order = curs.fetchall()[0]
 
     if not order:
         bot.answer_callback_query(call.id, "Заказ не найден.")
         return
 
     order["status"] = "В работе"
-    order["executor"] = call.from_user.username or call.from_user.full_name
+    order["assigned_volunteer_id"] = call.from_user.username or call.from_user.full_name
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add(InlineKeyboardButton(text="✅ Завершить", callback_data=f"finish_{order_id}"),
-                 InlineKeyboardButton(text="⚙️ Настройка", callback_data=f"setup_{order_id}"),
                  InlineKeyboardButton(text="❌ Отменить", callback_data=f"reject_{order_id}"))
 
     bot.edit_message_text(
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        text=call.message.text + f"\n\n✅ Взято в работу: {order['executor']}",
+        text=call.message.text + f"\n\n✅ Принято: {order['assigned_volunteer_id']}",
         reply_markup=keyboard
     )
 
     bot.send_message(
         chat_id=order["user_id"],
-        text=f"Твой заказ #{order_id} принят в работу! 🚀 Исполнитель: @{order['executor']}"
+        text=f"Ваша форма #{order_id} - {order['title']}, принята на рассмотрение {order['assigned_volunteer_id']}, с Вами свяжутся."
     )
 
-    curs.execute("update orders "
-                 f"SET status = 'В работе', executor = %s "
+    send_sql("update main_helprequest "
+                 f"SET status = 'В работе', assigned_volunteer_id = %s "
                  "where id = %s ",
-                 (order['executor'], order_id)
+                 (order['assigned_volunteer_id'], order_id)
                  )
 
-    conn.commit()
-
-    bot.answer_callback_query(call.id, "Ты взял заказ!")
+    bot.answer_callback_query(call.id, "Вы приняли #{order_id} - {order['title']} в работу.")
 
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("finish_"))
 def finish_order(call):
-    global curs, conn
     order_id = int(call.data.split("_")[1])
-    curs.execute('select * from orders where id = %s', (order_id))
-    # order = orders.get(order_id)
-
-    order = curs.fetchall()[0]
-
+    order = send_sql('select * from main_helprequest where id = %s', (order_id))
 
 
     if not order:
@@ -261,11 +244,11 @@ def finish_order(call):
     if not order['executor']:
         order['executor'] = call.from_user.username
 
-    if order['executor'] != call.from_user.username:
+    if order['assigned_volunteer_id'] != call.from_user.username:
         print(f'{call.from_user.username}!={order["executor"]}')
         return
-    order["status"] = "Завершён"
-    order["executor"] = call.from_user.username or call.from_user.full_name
+    order["status"] = "Завершено"
+    order["assigned_volunteer_id"] = call.from_user.username or call.from_user.full_name
 
     bot.edit_message_text(
         chat_id=call.message.chat.id,
@@ -276,18 +259,18 @@ def finish_order(call):
 
     bot.send_message(
         chat_id=order["user_id"],
-        text=f"Твой заказ #{order_id} ({order['task_type']}) завершён! Связаться: @{order['executor']}"
+        text=f"Ваша форма #{order_id} - {order['title']} помечена как завершённая! Связаться: @{order['executor']}"
     )
 
-    curs.execute("update orders "
-                 f"SET status = 'В работе', executor = %s "
+    send_sql("update orders "
+                 f"SET status = 'В работе', assigned_volunteer_id = %s "
                  "where id = %s ",
-                 (order['executor'], order_id)
+                 (order['assigned_volunteer_id'], order_id)
                  )
 
     conn.commit()
 
-    bot.answer_callback_query(call.id, "Ты взял заказ!")
+    bot.answer_callback_query(call.id, "Вы взяли форму на обработку!")
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("reject_"))
 def reject_order(call):
