@@ -129,6 +129,7 @@ def delete_account(message):
         bot.send_message(message.chat.id, "Вы еще не зарегистрированы!")
         return
     print(f'{USER=}')
+    send_sql('delete from main_helprequest where user_id = %s', [USER['id']])
     print(f"{send_sql('delete from main_user where telegram_id = %s', [message.from_user.id])=}")
     bot.send_message(message.chat.id, "Ваш аккаунт удален из системы.")
 
