@@ -33,13 +33,7 @@ def delete_message(message):
 def cmd_start(message):
     bot.send_message(message.chat.id, "Привет! Что будете заказывать? Выберите снизу!")
     users = send_sql("select * from main_user")
-    bot.send_message(message.chat.id, users)
-
-    time.sleep(3)
-    bot.send_message(message.chat.id, reply)
-    bot.register_next_step_handler(message, process_task_type)
-
-    conn.close()
+    bot.send_message(message.chat.id, str(users))
 
 
 @bot.message_handler(commands=['verify'])
