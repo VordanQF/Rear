@@ -39,13 +39,18 @@ def sql_api(request):
 
             with connection.cursor() as cursor:
                 cursor.execute(sql, params)
-                # если это SELECT
                 if cursor.description:
                     columns = [col[0] for col in cursor.description]
                     rows = cursor.fetchall()
                     result = [dict(zip(columns, row)) for row in rows]
+                    connection.commit()
                     return JsonResponse({'result': result})
+                if sql.strip().lower().startswith("insert"):
+                    last_id = cursor.lastrowid
+                    connection.commit()
+                    return JsonResponse({'lastrowid': last_id})
                 else:
+                    connection.commit()
                     return JsonResponse({'result': 'ok'})  # для insert/update/delete
 
         except Exception as e:
