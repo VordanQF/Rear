@@ -1,27 +1,122 @@
-{% block content %}
-  <div class="form-container" style="max-width: 600px; margin: 0 auto; padding: 30px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-    <h2 style="text-align: center; color: #333; margin-bottom: 25px;">Создать запрос на помощь</h2>
-    <form method="post">
-      {% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Запрос на помощь</title>
+</head>
+<body>
+<div class="form-container">
+  <h2>Создать запрос на помощь</h2>
+  <form method="post">
+    {% csrf_token %}
 
-      {% for field in form %}
-        <div style="margin-bottom: 20px;">
-          <label for="{{ field.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 5px; color: #444;">
-            {{ field.label }}
-          </label>
-          {{ field }}
-          {% if field.help_text %}
-            <small style="color: #888;">{{ field.help_text }}</small>
-          {% endif %}
-          {% if field.errors %}
-            <div style="color: red; font-size: 14px;">{{ field.errors }}</div>
-          {% endif %}
-        </div>
-      {% endfor %}
+    <div class="form-group">
+      <label for="{{ form.title.id_for_label }}">Заголовок запроса</label>
+      {{ form.title }}
+      {% if form.title.help_text %}
+        <small class="help-text">{{ form.title.help_text }}</small>
+      {% endif %}
+      {% if form.title.errors %}
+        <div class="error-text">{{ form.title.errors }}</div>
+      {% endif %}
+    </div>
 
-      <button type="submit" style="width: 100%; padding: 12px; background-color: #007BFF; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease;">
-        Отправить запрос
-      </button>
-    </form>
-  </div>
-{% endblock %}
+    <div class="form-group">
+      <label for="{{ form.description.id_for_label }}">Описание проблемы</label>
+      {{ form.description }}
+      {% if form.description.help_text %}
+        <small class="help-text">{{ form.description.help_text }}</small>
+      {% endif %}
+      {% if form.description.errors %}
+        <div class="error-text">{{ form.description.errors }}</div>
+      {% endif %}
+    </div>
+
+
+
+    <!-- Добавьте дополнительные поля по аналогии -->
+
+    <button type="submit" class="submit-button">Отправить запрос</button>
+  </form>
+</div>
+
+<style>
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.form-container h2 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+    resize: none;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.help-text {
+  color: #777;
+  font-size: 13px;
+}
+
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4b814d;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #4b814d;
+}
+</style>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ def support(request):
 
 
 def glav(request):
-    return render(request, 'main/glav.html')
+    return render(request, 'main/index.html')
 
 
 @csrf_exempt
